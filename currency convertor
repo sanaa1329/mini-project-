@@ -1,0 +1,64 @@
+#include <stdio.h>
+
+void displayMenu() {
+    printf("Currency Converter\n");
+    printf("1. Indian Rupee (INR)\n");
+    printf("2. US Dollar (USD)\n");
+    printf("3. Euro (EUR)\n");
+    printf("4. Pound Sterling (GBP)\n");
+    printf("5. Japanese Yen (JPY)\n");
+    printf("6. Australian Dollar (AUD)\n");
+    printf("7. Swiss Franc (CHF)\n");
+    printf("Enter your choice (1-7): ");
+}
+
+double convertCurrency(double amount, double rate) {
+    return amount * rate;
+}
+
+int main() {
+    int choiceFrom, choiceTo;
+    double amount, result;
+
+    // Example exchange rates (you can update these as needed)
+    double rates[7] = {1.0, 0.012, 0.011, 0.009, 1.48, 0.017, 0.011}; // INR to other currencies
+    char *currencies[7] = {"INR", "USD", "EUR", "GBP", "JPY", "AUD", "CHF"};
+
+    // Display menu and get user input for the currency to convert from
+    displayMenu();
+    scanf("%d", &choiceFrom);
+
+    // Validate the choiceFrom input
+    if (choiceFrom < 1 || choiceFrom > 7) {
+        printf("Invalid choice!\n");
+        return 1;
+    }
+
+    // Prompt for amount in the selected currency
+    printf("Enter amount in %s: ", currencies[choiceFrom - 1]);
+    scanf("%lf", &amount);
+
+    // Display menu again and get user input for the currency to convert to
+    printf("Convert to which currency?\n");
+    displayMenu();
+    scanf("%d", &choiceTo);
+
+    // Validate the choiceTo input
+    if (choiceTo < 1 || choiceTo > 7) {
+        printf("Invalid choice!\n");
+        return 1;
+    }
+
+    // Convert amount to INR first if it is not already in INR
+    if (choiceFrom != 1) {
+        amount /= rates[choiceFrom - 1]; // Convert to INR
+    }
+
+    // Convert from INR to target currency
+    result = convertCurrency(amount, rates[choiceTo - 1]);
+
+    // Display the result
+    printf("Converted amount: %.2f %s\n", result, currencies[choiceTo - 1]);
+
+    return 0;
+}
